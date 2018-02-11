@@ -1,0 +1,15 @@
+tf:
+  frozenModelPath: fastercnn/fastercnn_xxbox.pb
+  labelsPath: fastercnn/boxes_name.pbtxt
+  outputLayer:
+  	 detection_boxes:0
+  	 detection_scores:0
+  	 detection_classes:0
+  	 num_detections:0
+  image:
+    width: 512
+    height: 512
+    mean: 0
+    scale: 255
+
+spring.http.multipart.max-file-size: 5MB
