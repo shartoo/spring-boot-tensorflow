@@ -4,14 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.tensorflow.*;
-
-import com.newsplore.Application;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +22,7 @@ public class ClassifyImageService {
 
     private  int W, H;
     private float mean, scale;
-    
+
     public ClassifyImageService(Graph inceptionGraph, List<String> labels, @Value("${tf.outputLayer}") String outputLayer,
                                 @Value("${tf.image.width}") int imageW, @Value("${tf.image.height}") int imageH,
                                 @Value("${tf.image.mean}")float mean, @Value("${tf.image.scale}") float scale) {
@@ -63,9 +58,10 @@ public class ClassifyImageService {
                         Arrays.toString(rshape)));
             }
             int nlabels = (int) rshape[1];
-            return result.copyTo(new float[1][nlabels]);
+            return result.copyTo(new float[1][nlabels])[0];
         }
     }
+
 
     private int maxIndex(float[] probabilities) {
         int best = 0;

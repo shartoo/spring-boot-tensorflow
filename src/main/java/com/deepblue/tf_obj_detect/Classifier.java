@@ -2,7 +2,7 @@ package com.deepblue.tf_obj_detect;
 
 import java.util.List;
 
-import android.graphics.Bitmap;
+//import android.graphics.Bitmap;
 
 public interface Classifier {
 	  /**
