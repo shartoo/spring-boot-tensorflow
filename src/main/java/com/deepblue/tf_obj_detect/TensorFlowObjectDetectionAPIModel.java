@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Vector;
 import java.util.PriorityQueue;
 
-//import android.graphics.Bitmap;
+import android.graphics.Bitmap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -140,7 +140,6 @@ public class TensorFlowObjectDetectionAPIModel implements Classifier{
 	   */
 	    inferenceInterface.feed(inputName, imageByte, 1,inputHeight,inputWidth ,3);   
 	    // Run the inference call.
-	
 	    inferenceInterface.run(outputNames, logStats);
 
 	    // Copy the output Tensor back into the output array.

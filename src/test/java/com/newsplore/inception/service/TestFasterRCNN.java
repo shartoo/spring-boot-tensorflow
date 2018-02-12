@@ -28,42 +28,44 @@ import com.deepblue.tf_obj_detect.RectF;
 
 
 public class TestFasterRCNN extends JPanel {
-	 int inputSize = 600; 
+	 //int inputSize = 600; 
 	 int inputWidth = 800;
 	 int inputHeight = 600;
 	 /* Preallocated buffers for storing image data in. */
-	  private int[] intValues = new int[inputSize * inputSize*3];
+	 // private int[] intValues = new int[inputSize * inputSize*3];
 	 private static final int[] RGB_MASKS = {0xFF0000, 0xFF00, 0xFF};
 	 private static final ColorModel RGB_OPAQUE =new DirectColorModel(32, RGB_MASKS[0], RGB_MASKS[1], RGB_MASKS[2]);
 	 private   List<Recognition> detectResult = null;
 	 private   String testImagePath = "";
-	 private static BufferedImage resize(BufferedImage img, int height, int width) {
-	        Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-	        BufferedImage resized = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
-	        Graphics2D g2d = resized.createGraphics();
-	        g2d.drawImage(tmp, 0, 0, null);
-	        g2d.dispose();
-	        return resized;
-	    }
-	 
+
      public List<Recognition> test(String testImgPath) throws IOException {
     	  String modelFilename ="D:\\data\\robot_auto_seller\\robot_auto_seller_20171025(release)\\robot_inference_graph\\frozen_inference_graph.pb";
+    	 //String modelFilename ="D:\\data\\model\\faster_rcnn_resnet101_coco_11_06_2017\\frozen_inference_graph.pb";
     	  String labelFilename ="D:\\data\\robot_auto_seller\\robot_auto_seller_20171025(release)\\config\\label.txt";
         
     	 Classifier detector = TensorFlowObjectDetectionAPIModel.create(modelFilename,labelFilename,inputHeight,inputWidth);
+    	 // Classifier detector = TensorFlowObjectDetectionAPIModel.create(modelFilename,labelFilename,inputSize,inputSize);
     	 List<Recognition> result = detector.recognizeImage(readImageBytes(testImgPath)) ;
     	 return result;
      }
 
 	public byte[] readImageBytes(String imagePath) throws IOException {
 		
-		//BufferedImage originalImage =resize(ImageIO.read(new File(imagePath)),inputSize,inputSize);
-		
+		/**
+		 * It's not necessary to resize image ,cause TensorFlowObjectDetectionAPIModel will
+		 * 
+		 *  add by xiatao
+		 */
 		BufferedImage originalImage = ImageIO.read(new File(imagePath));
 		byte[] pixels = ((DataBufferByte) originalImage.getRaster().getDataBuffer()).getData();
 		
-	
-		    
+		byte[] byteValues = new byte[inputWidth * inputHeight * 3];
+	    for (int i = 0; i < pixels.length; ++i) {
+	    // caution about byteValues array index is 2,1,0 which can be used to change array sequence from BGR to RGB
+	      byteValues[i * 3 + 2] = (byte) (pixels[i] & 0xFF);     
+	      byteValues[i * 3 + 1] = (byte) ((pixels[i] >> 8) & 0xFF);
+	      byteValues[i * 3 + 0] = (byte) ((pixels[i] >> 16) & 0xFF);
+  }
 //		PixelGrabber pg = new PixelGrabber(ImageIO.read(new File(imagePath)), 0, 0, -1, -1, true);
 //		pg.grabPixels();
 //		int width = pg.getWidth(), height = pg.getHeight();
@@ -87,7 +89,7 @@ public class TestFasterRCNN extends JPanel {
 //		System.out.println(baos.size());
 //		baos.flush();
 //		byte[] imageInByte = baos.toByteArray();
-		return pixels;
+		return byteValues;
 	}
    
 	@Override
@@ -117,8 +119,7 @@ public class TestFasterRCNN extends JPanel {
 					int y = top -height/2;
 					
 					g.drawRect(x, y, width, height);	
-					g.setColor(new Color((100+i*10)%255,(50+i*22)%255,(10+i*32)%255));
-					//g.draw
+					g.setColor(new Color((100+i*10)%255,(50+i*22)%255,(10+i*32)%255));			
 					g.drawString(rec.getTitle(), x, y);
 				}	
 		   } 
