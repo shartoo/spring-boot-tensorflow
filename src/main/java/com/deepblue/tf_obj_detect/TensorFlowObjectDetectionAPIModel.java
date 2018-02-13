@@ -168,13 +168,24 @@ public class TensorFlowObjectDetectionAPIModel implements Classifier{
 	    // Scale them back to the input size.
 	    for (int i = 0; i < outputScores.length; ++i) {
 	      final RectF detection =
-	          new RectF(
-	              outputLocations[4 * i + 1] * inputSize,
-	              outputLocations[4 * i] * inputSize,
-	              outputLocations[4 * i + 3] * inputSize,
-	              outputLocations[4 * i + 2] * inputSize);
-	      pq.add(
-	          new Recognition("" + i, labels.get((int) outputClasses[i]), outputScores[i], detection));
+	    		  /**
+	    		   * add by xiatao  to process image whose width not equal to height
+	    		   */
+	    		  new RectF(
+	    	              outputLocations[4 * i + 1] * inputWidth,
+	    	              outputLocations[4 * i] * inputHeight,
+	    	              outputLocations[4 * i + 3] * inputWidth,
+	    	              outputLocations[4 * i + 2] * inputHeight);
+//	          new RectF(
+//	              outputLocations[4 * i + 1] * inputSize,
+//	              outputLocations[4 * i] * inputSize,
+//	              outputLocations[4 * i + 3] * inputSize,
+//	              outputLocations[4 * i + 2] * inputSize);
+	      if(outputClasses[i]!=0)
+	      {
+	    	  pq.add(new Recognition("" + i, labels.get((int) outputClasses[i]-1), outputScores[i], detection));
+	      }
+//	      pq.add(new Recognition("" + i, labels.get((int) outputClasses[i]), outputScores[i], detection));
 	    }
 
 	    final ArrayList<Recognition> recognitions = new ArrayList<Recognition>();

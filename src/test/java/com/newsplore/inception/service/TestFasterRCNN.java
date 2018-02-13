@@ -61,8 +61,12 @@ public class TestFasterRCNN extends JPanel {
 		/**
 		 * cite https://stackoverflow.com/questions/6524196/java-get-pixel-array-from-image
 		 */
-		byte[] pixels = new byte[inputWidth*inputHeight];
-		((DataBufferByte) originalImage.getRGB(0, 0, inputWidth, inputHeight, pixels);
+		//byte[] pixels = ((DataBufferByte) originalImage.getRaster().getDataBuffer()).getData();
+		int[] pixels = new int[inputWidth*inputHeight];
+		/**
+		 * code below refere from http://blog.csdn.net/hayre/article/details/50611591
+		 */
+		originalImage.getRGB(0,0, inputWidth, inputHeight, pixels, 0, inputWidth);
 		System.out.println("image pixel size is:\t"+ pixels.length);
 		byte[] byteValues = new byte[inputWidth * inputHeight * 3];
 	    for (int i = 0; i < pixels.length; ++i) {
