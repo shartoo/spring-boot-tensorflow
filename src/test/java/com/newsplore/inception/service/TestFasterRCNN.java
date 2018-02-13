@@ -28,7 +28,7 @@ import com.deepblue.tf_obj_detect.RectF;
 
 
 public class TestFasterRCNN extends JPanel {
-	 //int inputSize = 600; 
+	
 	 int inputWidth = 800;
 	 int inputHeight = 600;
 	 /* Preallocated buffers for storing image data in. */
@@ -54,11 +54,16 @@ public class TestFasterRCNN extends JPanel {
 		/**
 		 * It's not necessary to resize image ,cause TensorFlowObjectDetectionAPIModel will
 		 * 
+		 * 
 		 *  add by xiatao
 		 */
 		BufferedImage originalImage = ImageIO.read(new File(imagePath));
-		byte[] pixels = ((DataBufferByte) originalImage.getRaster().getDataBuffer()).getData();
-		
+		/**
+		 * cite https://stackoverflow.com/questions/6524196/java-get-pixel-array-from-image
+		 */
+		byte[] pixels = new byte[inputWidth*inputHeight];
+		((DataBufferByte) originalImage.getRGB(0, 0, inputWidth, inputHeight, pixels);
+		System.out.println("image pixel size is:\t"+ pixels.length);
 		byte[] byteValues = new byte[inputWidth * inputHeight * 3];
 	    for (int i = 0; i < pixels.length; ++i) {
 	    // caution about byteValues array index is 2,1,0 which can be used to change array sequence from BGR to RGB
