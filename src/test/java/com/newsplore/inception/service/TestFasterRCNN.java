@@ -145,9 +145,9 @@ public class TestFasterRCNN extends JPanel {
 					g.drawLine(left, bottom, right,bottom);
 					g.drawLine(left, top, left,bottom);
 					g.drawLine(right, top, right,bottom);
-					g.drawLine(top, left, bottom, right);
+					g.drawLine(left, top, right,bottom);
 						
-					g.drawString(rec.getTitle(), x,y);
+					g.drawString(rec.getTitle(), (left+right)/2,(top+bottom)/2);
 				}	
 		   } 
 		  	
