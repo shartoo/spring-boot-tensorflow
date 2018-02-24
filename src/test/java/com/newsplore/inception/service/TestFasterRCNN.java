@@ -43,7 +43,7 @@ public class TestFasterRCNN extends JPanel {
     	 //String modelFilename ="D:\\data\\model\\faster_rcnn_resnet101_coco_11_06_2017\\frozen_inference_graph.pb";
     	  String labelFilename ="D:\\data\\robot_auto_seller\\robot_auto_seller_20171025(release)\\config\\label.txt";
         
-    	 Classifier detector = TensorFlowObjectDetectionAPIModel.create(modelFilename,labelFilename,inputHeight,inputWidth);
+    	 Classifier detector = TensorFlowObjectDetectionAPIModel.create(modelFilename,labelFilename,inputWidth,inputHeight);
     	 // Classifier detector = TensorFlowObjectDetectionAPIModel.create(modelFilename,labelFilename,inputSize,inputSize);
     	 List<Recognition> result = detector.recognizeImage(readImageBytes(testImgPath)) ;
     	 return result;
@@ -63,10 +63,21 @@ public class TestFasterRCNN extends JPanel {
 		 */
 		//byte[] pixels = ((DataBufferByte) originalImage.getRaster().getDataBuffer()).getData();
 		int[] pixels = new int[inputWidth*inputHeight];
+		System.out.println(pixels.length);
 		/**
 		 * code below refere from http://blog.csdn.net/hayre/article/details/50611591
 		 */
-		originalImage.getRGB(0,0, inputWidth, inputHeight, pixels, 0, inputWidth);
+		for(int  i = 0; i<inputWidth;i++)
+		{
+			for(int j = 0 ;j <inputHeight; j++)
+			{
+					pixels [i*inputHeight + j] = originalImage.getRGB(i,j);
+			}
+		}
+		/**
+		 *  this method is proved not ok
+		 * originalImage.getRGB(0,0, inputWidth, inputHeight, pixels, 0, inputWidth);
+		 */
 		System.out.println("image pixel size is:\t"+ pixels.length);
 		byte[] byteValues = new byte[inputWidth * inputHeight * 3];
 	    for (int i = 0; i < pixels.length; ++i) {
@@ -101,6 +112,7 @@ public class TestFasterRCNN extends JPanel {
 		return byteValues;
 	}
    
+
 	@Override
 	   public void paintComponent(Graphics g) {
 	      super.paintComponent(g);  // paint background
@@ -127,9 +139,15 @@ public class TestFasterRCNN extends JPanel {
 					int x =  right-width/2;
 					int y = top -height/2;
 					
-					g.drawRect(x, y, width, height);	
-					g.setColor(new Color((100+i*10)%255,(50+i*22)%255,(10+i*32)%255));			
-					g.drawString(rec.getTitle(), x, y);
+					g.setColor(new Color((100+i*10)%255,(50+i*22)%255,(10+i*32)%255));		
+					//g.drawRect(top,left,height,width);
+					g.drawLine(left, top, right,top);
+					g.drawLine(left, bottom, right,bottom);
+					g.drawLine(left, top, left,bottom);
+					g.drawLine(right, top, right,bottom);
+					g.drawLine(top, left, bottom, right);
+						
+					g.drawString(rec.getTitle(), x,y);
 				}	
 		   } 
 		  	
@@ -143,18 +161,18 @@ public class TestFasterRCNN extends JPanel {
 	public static void main(String[] args) {
 		TestFasterRCNN tf = new TestFasterRCNN();
 		//String testImgPath =  "D:\\data\\robot_auto_seller\\robot_auto_seller_2layers\\20180205\\source_imgs\\drinking_layer0_frames_85.jpg";
-		String testImgPath =  "D:\\data\\robot_auto_seller\\all_data\\images\\0_frame-0005700_o.jpg";
+		String testImgPath =  "D:\\data\\robot_auto_seller\\all_data\\images\\0_frame-0005703_o.jpg";
 		tf.testImagePath =  testImgPath;
 		try {
 			List<Recognition> result = tf.test(testImgPath);
 			tf.detectResult = result;
-			 JFrame.setDefaultLookAndFeelDecorated(true);
-			 JFrame frame = new JFrame("FasterRCNN detection result");
-			 frame.setSize(tf.inputWidth+50,tf.inputHeight+50);
-			 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			 frame.add(tf);	 
-			 frame.setVisible(true);
-		} catch (IOException e) {
+			JFrame.setDefaultLookAndFeelDecorated(true);
+			JFrame frame = new JFrame("FasterRCNN detection result");
+			frame.setSize(tf.inputWidth+50,tf.inputHeight+50);
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.add(tf);	 
+			frame.setVisible(true);
+			} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

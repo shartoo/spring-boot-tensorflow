@@ -169,7 +169,9 @@ public class TensorFlowObjectDetectionAPIModel implements Classifier{
 	    for (int i = 0; i < outputScores.length; ++i) {
 	      final RectF detection =
 	    		  /**
-	    		   * add by xiatao  to process image whose width not equal to height
+	    		   * add by xiatao  to process image whose width not equal to height. the corresponding python code is below:
+	    		   *   ## cautious about the sequence y is in front of x
+	    		   * ymin, xmin, ymax, xmax = boxes[0][i][0]*img_height,boxes[0][i][1]*img_width,boxes[0][i][2]*img_height,boxes[0][i][3]*img_width
 	    		   */
 	    		  new RectF(
 	    	              outputLocations[4 * i + 1] * inputWidth,
@@ -186,6 +188,8 @@ public class TensorFlowObjectDetectionAPIModel implements Classifier{
 	    	  pq.add(new Recognition("" + i, labels.get((int) outputClasses[i]-1), outputScores[i], detection));
 	      }
 //	      pq.add(new Recognition("" + i, labels.get((int) outputClasses[i]), outputScores[i], detection));
+	      
+	      
 	    }
 
 	    final ArrayList<Recognition> recognitions = new ArrayList<Recognition>();
