@@ -42,8 +42,8 @@ public class TestFasterRCNN extends JPanel {
     	  String modelFilename ="D:\\data\\robot_auto_seller\\robot_auto_seller_20171025(release)\\robot_inference_graph\\frozen_inference_graph.pb";
     	 //String modelFilename ="D:\\data\\model\\faster_rcnn_resnet101_coco_11_06_2017\\frozen_inference_graph.pb";
     	  String labelFilename ="D:\\data\\robot_auto_seller\\robot_auto_seller_20171025(release)\\config\\label.txt";
-        
-    	 Classifier detector = TensorFlowObjectDetectionAPIModel.create(modelFilename,labelFilename,inputWidth,inputHeight);
+        //  the parameters sequence should be inputWidth,inputHeight according to TensorFlowObjectDetectionAPIModel.but it will result into wrong prediction.
+    	 Classifier detector = TensorFlowObjectDetectionAPIModel.create(modelFilename,labelFilename,inputHeight,inputWidth);
     	 // Classifier detector = TensorFlowObjectDetectionAPIModel.create(modelFilename,labelFilename,inputSize,inputSize);
     	 List<Recognition> result = detector.recognizeImage(readImageBytes(testImgPath)) ;
     	 return result;
@@ -112,18 +112,37 @@ public class TestFasterRCNN extends JPanel {
 		return byteValues;
 	}
    
-
+	 public static BufferedImage rotateImage(final BufferedImage bufferedimage,
+	            final int degree) {
+	        int w = bufferedimage.getWidth();
+	        int h = bufferedimage.getHeight();
+	        int type = bufferedimage.getColorModel().getTransparency();
+	        BufferedImage img;
+	        Graphics2D graphics2d;
+	        (graphics2d = (img = new BufferedImage(w, h, type))
+	                .createGraphics()).setRenderingHint(
+	                RenderingHints.KEY_INTERPOLATION,
+	                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+	        graphics2d.rotate(Math.toRadians(degree), w / 2, h / 2);
+	        graphics2d.drawImage(bufferedimage, 0, 0, null);
+	        graphics2d.dispose();
+	        return img;
+	    }
 	@Override
 	   public void paintComponent(Graphics g) {
 	      super.paintComponent(g);  // paint background
 	      //setBackground(Color.pink);
 	      Font f1 = new Font("Helvetica",Font.ITALIC,24);
+	      String[] labels = new String[] {"yinliao","yida","kele","kangshifu"};
+	      Color[] colors = new Color[] {new Color(255,0,255),new Color(255,255,0),new Color(255,255,255),new Color(120,250,90)};
 	      g.setFont(f1);
 	      BufferedImage im;
 		  try {
 			System.out.println(" test image file path is:\t"+this.testImagePath);
 			im = ImageIO.read(new File(this.testImagePath));
-		    g.drawImage(im, 0, 0, this.inputWidth, this.inputHeight, this);
+			
+		   g.drawImage(rotateImage(im,180), 0, 0, this.inputWidth, this.inputHeight, this);
+		  //g.drawImage(im, 0, 0, this.inputWidth, this.inputHeight, this);
 		  	for(int i = 0 ;i<this.detectResult.size() ; i++)
 			{
 				Recognition rec =  this.detectResult.get(i);
@@ -139,7 +158,16 @@ public class TestFasterRCNN extends JPanel {
 					int x =  right-width/2;
 					int y = top -height/2;
 					
-					g.setColor(new Color((100+i*10)%255,(50+i*22)%255,(10+i*32)%255));		
+					int color_index = 0;
+					for (int c = 0;c<labels.length ; c++)
+					{
+						if (rec.getTitle().equals(labels[c]))
+							{
+							    color_index = c;
+							    break;
+							}
+					}
+					g.setColor(colors[color_index]);		
 					//g.drawRect(top,left,height,width);
 					g.drawLine(left, top, right,top);
 					g.drawLine(left, bottom, right,bottom);
@@ -161,13 +189,13 @@ public class TestFasterRCNN extends JPanel {
 	public static void main(String[] args) {
 		TestFasterRCNN tf = new TestFasterRCNN();
 		//String testImgPath =  "D:\\data\\robot_auto_seller\\robot_auto_seller_2layers\\20180205\\source_imgs\\drinking_layer0_frames_85.jpg";
-		String testImgPath =  "D:\\data\\robot_auto_seller\\all_data\\images\\0_frame-0005703_o.jpg";
+		String testImgPath =  "D:\\data\\robot_auto_seller\\all_data\\images\\443960ae52b0afd2d3e0ac6e9846b4ed.jpg";
 		tf.testImagePath =  testImgPath;
 		try {
 			List<Recognition> result = tf.test(testImgPath);
 			tf.detectResult = result;
 			JFrame.setDefaultLookAndFeelDecorated(true);
-			JFrame frame = new JFrame("FasterRCNN detection result");
+			JFrame frame = new JFrame("(180 degree)FasterRCNN detection result");
 			frame.setSize(tf.inputWidth+50,tf.inputHeight+50);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.add(tf);	 

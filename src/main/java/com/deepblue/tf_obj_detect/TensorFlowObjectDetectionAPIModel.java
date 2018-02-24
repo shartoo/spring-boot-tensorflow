@@ -174,10 +174,10 @@ public class TensorFlowObjectDetectionAPIModel implements Classifier{
 	    		   * ymin, xmin, ymax, xmax = boxes[0][i][0]*img_height,boxes[0][i][1]*img_width,boxes[0][i][2]*img_height,boxes[0][i][3]*img_width
 	    		   */
 	    		  new RectF(
-	    	              outputLocations[4 * i + 1] * inputWidth,
-	    	              outputLocations[4 * i] * inputHeight,
-	    	              outputLocations[4 * i + 3] * inputWidth,
-	    	              outputLocations[4 * i + 2] * inputHeight);
+	    	              outputLocations[4 * i + 1] *inputHeight,
+	    	              outputLocations[4 * i] *  inputWidth,
+	    	              outputLocations[4 * i + 3] * inputHeight,
+	    	              outputLocations[4 * i + 2] * inputWidth);
 //	          new RectF(
 //	              outputLocations[4 * i + 1] * inputSize,
 //	              outputLocations[4 * i] * inputSize,
