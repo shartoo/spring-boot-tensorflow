@@ -28,7 +28,6 @@ public class Application {
 	@Bean
 	public Graph tfModelGraph(@Value("${tf.frozenModelPath}") String tfFrozenModelPath) throws IOException {
         Resource graphResource = getResource(tfFrozenModelPath);
-
 		Graph graph = new Graph();
 		graph.importGraphDef(IOUtils.toByteArray(graphResource.getInputStream()));
 		log.info("Loaded Tensorflow model");

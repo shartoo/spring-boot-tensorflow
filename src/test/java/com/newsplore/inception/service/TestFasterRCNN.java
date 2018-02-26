@@ -133,7 +133,7 @@ public class TestFasterRCNN extends JPanel {
 	      super.paintComponent(g);  // paint background
 	      //setBackground(Color.pink);
 	      Font f1 = new Font("Helvetica",Font.ITALIC,24);
-	      String[] labels = new String[] {"yinliao","yida","kele","kangshifu"};
+	      String[] labels = new String[] {"饮料","益达","可乐","康师傅牛肉面"};
 	      Color[] colors = new Color[] {new Color(255,0,255),new Color(255,255,0),new Color(255,255,255),new Color(120,250,90)};
 	      g.setFont(f1);
 	      BufferedImage im;
@@ -189,13 +189,13 @@ public class TestFasterRCNN extends JPanel {
 	public static void main(String[] args) {
 		TestFasterRCNN tf = new TestFasterRCNN();
 		//String testImgPath =  "D:\\data\\robot_auto_seller\\robot_auto_seller_2layers\\20180205\\source_imgs\\drinking_layer0_frames_85.jpg";
-		String testImgPath =  "D:\\data\\robot_auto_seller\\all_data\\images\\443960ae52b0afd2d3e0ac6e9846b4ed.jpg";
+		String testImgPath =  "D:\\data\\robot_auto_seller\\all_data\\images\\256df363e4052681ad6d48fbf87f6f01.jpg";
 		tf.testImagePath =  testImgPath;
 		try {
 			List<Recognition> result = tf.test(testImgPath);
 			tf.detectResult = result;
 			JFrame.setDefaultLookAndFeelDecorated(true);
-			JFrame frame = new JFrame("(180 degree)FasterRCNN detection result");
+			JFrame frame = new JFrame("FasterRCNN detection result");
 			frame.setSize(tf.inputWidth+50,tf.inputHeight+50);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.add(tf);	 

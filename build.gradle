@@ -47,7 +47,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
   compile('org.projectlombok:lombok:1.16.14')
   compile('org.tensorflow:tensorflow:1.5.0-rc1')
-  compile('org.tensorflow:tensorflow-android:+')
+  compile('org.tensorflow:tensorflow-android:1.5.0-rc1')
   compile('com.google.protobuf:protobuf-java:3.3.1')
   compile('commons-io:commons-io:2.5')
 	compile('jmimemagic:jmimemagic:0.1.2')

@@ -9,3 +9,12 @@ tf:
     scale: 255
 
 spring.http.multipart.max-file-size: 5MB
+fst:
+  frozenModelPath: D:\\data\\robot_auto_seller\\robot_auto_seller_20171025(release)\\robot_inference_graph\\frozen_inference_graph.pb
+  labelsPath: D:\\data\\robot_auto_seller\\robot_auto_seller_20171025(release)\\config\\label.txt
+  image:
+    width: 800
+    height: 600
+    mean: 0
+    scale: 255
+	
