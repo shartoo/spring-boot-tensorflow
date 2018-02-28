@@ -45,7 +45,7 @@ public class Application {
         return graphResource;
     }
     
-    @Bean 
+   @Bean 
     public String getLabelPath(@Value("${fst.labelsPath}")String labelFile)
     {
     	log.info("Loaded Tensorflow labelPath\t"+labelFile);

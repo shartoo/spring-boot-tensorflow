@@ -27,9 +27,10 @@ public class ClassifyImageServiceTest {
     @Test
     public void classifyServiceMutipleImages() throws Exception {
         String[] images = new String[]{"car.png", "mule.jpg", "Blowfish.jpg", "boat.jpg", "castle.jpg", "peach.jpg"};
-        List<ClassifyImageService.LabelWithProbability> classifs = Arrays.stream(images).map(image -> {
+       List<ClassifyImageService.LabelWithProbability> classifs = Arrays.stream(images).map(image -> {
             try {
                 byte[] bytes = Files.readAllBytes(Paths.get(resourceLoader.getResource("classpath:" + image).getURI()));
+                System.out.println(" read image byte from ClassifyImgeTest size is :\t"+bytes.length);
                 ClassifyImageService.LabelWithProbability labelWithProbability = classifyImageService.classifyImage(bytes);
                 Assert.assertNotNull(labelWithProbability.getLabel());
                 return labelWithProbability;
