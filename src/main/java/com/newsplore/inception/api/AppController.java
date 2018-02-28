@@ -48,6 +48,7 @@ public class AppController {
         checkImageContents(file);
    	    // Classifier detector = TensorFlowObjectDetectionAPIModel.create(modelFilename,labelFilename,inputSize,inputSize);
         InputStream in = new ByteArrayInputStream(file.getBytes());
+        System.out.println( " the image bytes read total:\t "+ in.available());
         List<BoxLabelProbability> result = fasterRcnnService.locateAndClassify(ImageIO.read(in));
         String resStr = "";
         HashMap<String,Integer>  resultMap = new HashMap<String,Integer>();

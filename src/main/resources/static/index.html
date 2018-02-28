@@ -67,8 +67,36 @@
                     $scope.submitDisable = false;
                 }).error(function () {
                     $scope.submitDisable = false;
-                });
+                });      
             };
+            
+            
+            $scope.doLocateAndClassify = function () {
+                var files = document.getElementById("newFile").files;
+                if (!files.length) {
+                    $scope.errMessage = "Select a file first";
+                    return;
+                }
+                $scope.waitComputing = {'visibility': 'visible'};
+                $scope.submitDisable = true;
+                var file = files[0]
+                var fd = new FormData();
+                fd.append('file', file);
+                $http.post('/api/locateAndClassify', fd, {
+                    transformRequest: angular.identity,
+                    headers: {'Content-Type': undefined}
+                }
+            ).success(function (result) {
+                console.log(result)
+                $scope.labelVisiblity = {'visibility': 'visible'};
+                $scope.waitComputing = {'visibility': 'hidden'};
+                $scope.classification = result
+                $scope.submitDisable = false;
+            }).error(function () {
+                $scope.submitDisable = false;
+            });
+                 
+            };     
         });
     </script>
     <script src="upload.js"></script>
@@ -77,6 +105,7 @@
             <input class="ng-hide" type="file" id="newFile" name="file" ng-file-select="onFileSelect($files)"/>
             <label for="newFile" class="md-button md-raised">Choose image</label>
             <md-button class="md-raised md-primary" type="button" ng-click="doSaveNewDoc()" ng-disabled="submitDisable">Classify</md-button>
+            <md-button class="md-raised md-primary" type="button" ng-click="doLocateAndClassify()" ng-disabled="submitDisable">LocateAndClassify</md-button>
             <md-button class="md-primary" target="_blank" href="/docs/index.html">API Doc</md-button>
         </div>
         <md-progress-linear md-mode="indeterminate" md-diameter="20px" ng-style="waitComputing"></md-progress-linear>
@@ -86,6 +115,13 @@
             <b>{{classification.label}}</b> Probability {{classification.probability}}%. Took {{classification.elapsed}} ms
         </md-content>
         <br/>
+        
+        <br/>
+        <md-content style="color:darkblue" ng-style="labelVisiblity">
+            <b>{{classification}}</b>
+        </md-content>
+        <br/>
+        
         <md-whiteframe class="md-whiteframe-4dp" flex-sm="45" flex-gt-sm="35" flex-gt-md="25"><img ng-src="{{imageSrc}}"/></md-whiteframe>
         <p style="color:red">{{errMessage}}</p>
     </div>

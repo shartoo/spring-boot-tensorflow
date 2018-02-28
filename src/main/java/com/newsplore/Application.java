@@ -33,7 +33,7 @@ public class Application {
 		log.info("Loaded Tensorflow model");
 		return graph;
 	}
-
+	
     private Resource getResource(@Value("${tf.frozenModelPath}") String tfFrozenModelPath) {
         Resource graphResource = new FileSystemResource(tfFrozenModelPath);
         if(!graphResource.exists()) {
@@ -44,7 +44,13 @@ public class Application {
         }
         return graphResource;
     }
-
+    
+    @Bean 
+    public String getLabelPath(@Value("${fst.labelsPath}")String labelFile)
+    {
+    	log.info("Loaded Tensorflow labelPath\t"+labelFile);
+    	return labelFile;
+    }
     @Bean
     public List<String> tfModelLabels(@Value("${tf.labelsPath}") String labelsPath) throws IOException {
         Resource labelsRes = getResource(labelsPath);
