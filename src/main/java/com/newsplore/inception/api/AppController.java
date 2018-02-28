@@ -50,7 +50,6 @@ public class AppController {
         InputStream in = new ByteArrayInputStream(file.getBytes());
         System.out.println( " the image bytes read total:\t "+ in.available());
         List<BoxLabelProbability> result = fasterRcnnService.locateAndClassify(ImageIO.read(in));
-        System.out.println(" Faster RCNN detect result length :\t"+result.size());
         String resStr = "";
         HashMap<String,Integer>  resultMap = new HashMap<String,Integer>();
         for(BoxLabelProbability box:result )
@@ -73,7 +72,8 @@ public class AppController {
     	   int  val = entry.getValue();
     	   resStr =  resStr + "," + key + "  :  " + String.valueOf(val); 
       }
-      System.out.println("  The FasterRCNN Detect result is:\t"+resStr);
+       resStr =  resStr.substring(1,resStr.length());
+       System.out.println("  The FasterRCNN Detect result is:\t"+resStr);
         return resStr;
     }
     @PostMapping(value = "/locateAndClassifyDetail")

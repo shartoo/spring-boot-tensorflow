@@ -45,12 +45,6 @@ public class Application {
         return graphResource;
     }
     
-   @Bean 
-    public String getLabelPath(@Value("${fst.labelsPath}")String labelFile)
-    {
-    	log.info("Loaded Tensorflow labelPath\t"+labelFile);
-    	return labelFile;
-    }
     @Bean
     public List<String> tfModelLabels(@Value("${tf.labelsPath}") String labelsPath) throws IOException {
         Resource labelsRes = getResource(labelsPath);
