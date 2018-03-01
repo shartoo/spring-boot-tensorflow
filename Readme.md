@@ -1,7 +1,5 @@
 # image classify and faster-rcnn detection
 
-<div align="center" style="text-align:center"><img src="cat_classified.jpg" width="560"/></div>
-
 
 ## Prerequisites
 - JDK 8
@@ -19,7 +17,10 @@ Navigate to http://localhost:8080 and upload an image. The backend will categori
 
 ### Run classify
 
-Just clik on the botton `classify` ,the result will show
+Just clik on the botton `classify` ,the result will show like this
+
+
+<div align="center" style="text-align:center"><img src="cat_classified.jpg" width="360"/></div>
 
 ### Run locate and classify
 
