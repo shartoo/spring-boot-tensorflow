@@ -26,7 +26,17 @@ Just clik on the botton `classify` ,the result will show
 There are some problems for showing the locate and classify result,python code to call the function is  below.
 
 ```
+import requests
 
+files={'app_id':(None,'123456'),
+    'version':(None,'2256'),
+    'platform':(None,'linux'),
+    'file':open('/home/tao/workspace/imgs/0_frame-0009417_o.jpg','rb')
+ }
+url = "http://localhost:8080/api/locateAndClassify"
+response=requests.post(url,files=files)
+print("=======  predict result ========")
+print(response.content)
 ```
 
 
