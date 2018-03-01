@@ -23,6 +23,12 @@ Just clik on the botton `classify` ,the result will show
 
 ### Run locate and classify
 
+There are some problems for showing the locate and classify result,python code to call the function is  below.
+
+```
+
+```
+
 
 ## TODO
 
