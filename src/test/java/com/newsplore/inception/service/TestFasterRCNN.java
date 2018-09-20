@@ -21,10 +21,10 @@ import java.awt.image.PixelGrabber;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 
-import com.deepblue.tf_obj_detect.Classifier;
-import com.deepblue.tf_obj_detect.TensorFlowObjectDetectionAPIModel;
-import com.deepblue.tf_obj_detect.Classifier.Recognition;
-import com.deepblue.tf_obj_detect.RectF;
+import com.top.tf_obj_detect.Classifier;
+import com.top.tf_obj_detect.TensorFlowObjectDetectionAPIModel;
+import com.top.tf_obj_detect.Classifier.Recognition;
+import com.top.tf_obj_detect.RectF;
 
 
 public class TestFasterRCNN extends JPanel {
