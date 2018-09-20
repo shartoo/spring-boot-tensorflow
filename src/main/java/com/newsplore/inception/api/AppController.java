@@ -1,8 +1,8 @@
 package com.newsplore.inception.api;
 
-import com.deepblue.tf_obj_detect.Classifier;
-import com.deepblue.tf_obj_detect.TensorFlowObjectDetectionAPIModel;
-import com.deepblue.tf_obj_detect.Classifier.Recognition;
+import com.top.tf_obj_detect.Classifier;
+import com.top.tf_obj_detect.TensorFlowObjectDetectionAPIModel;
+import com.top.tf_obj_detect.Classifier.Recognition;
 import com.newsplore.inception.service.ClassifyImageService;
 import com.newsplore.inception.service.FasterRcnnService;
 import com.newsplore.inception.service.FasterRcnnService.BoxLabelProbability;

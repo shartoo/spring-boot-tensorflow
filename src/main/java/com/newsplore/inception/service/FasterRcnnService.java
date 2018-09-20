@@ -12,9 +12,9 @@ import javax.imageio.ImageIO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.deepblue.tf_obj_detect.Classifier;
-import com.deepblue.tf_obj_detect.TensorFlowObjectDetectionAPIModel;
-import com.deepblue.tf_obj_detect.Classifier.Recognition;
+import com.top.tf_obj_detect.Classifier;
+import com.top.tf_obj_detect.TensorFlowObjectDetectionAPIModel;
+import com.top.tf_obj_detect.Classifier.Recognition;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.deepblue.tf_obj_detect;
+package com.top.tf_obj_detect;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
